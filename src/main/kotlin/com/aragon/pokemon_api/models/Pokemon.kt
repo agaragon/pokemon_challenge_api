@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 
 @Document
 data class Pokemon(
-    @Id
-    val id: Int,
-    val nome: String,
+    var id: Int?,
+    @Id val nome: String,
+    var imageUrl: String?,
 )
