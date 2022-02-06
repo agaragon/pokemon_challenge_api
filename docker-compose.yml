@@ -1,0 +1,42 @@
+version: "3.8"
+services:
+  www:
+    build:
+        context: .
+        dockerfile: Dockerfile.local.mongo
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/home/app
+    env_file:
+      - .env
+#    networks:
+#      - mongo-network
+#    depends_on:
+#      - mongodb
+#
+#  mongodb:
+#    restart: unless-stopped
+#    image: mongo:4.2
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: user
+#      MONGO_INITDB_ROOT_PASSWORD: pass
+#    ports:
+#      - 27017:27017
+#
+#    networks:
+#      - mongo-network
+#  kafka:
+#    image: "landoop/fast-data-dev"
+#    env_file:
+#      - .env
+#    ports:
+#      - "9092:9092" # Kafka Broker
+#      - "8081:8081" # Schema Registry
+#      - "3030:3030" # Web Server
+#    networks:
+#      - mongo-network
+#
+#networks:
+#  mongo-network:
+#    driver: bridge
