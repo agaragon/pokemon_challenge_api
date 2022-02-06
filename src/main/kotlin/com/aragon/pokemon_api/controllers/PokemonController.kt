@@ -9,14 +9,13 @@ import com.aragon.pokemon_api.mongoRepositories.PokemonRepository
 class PokemonController(
     val pokemonRepository: PokemonRepository
 ) {
-    @GetMapping("/{pokemonId}")
-    fun getPokemonById(@PathVariable pokemonId: Int): Pokemon {
-        return Pokemon(pokemonId,"Ditto")
+    @GetMapping
+    fun getPokemons(): MutableList<Pokemon> {
+        return pokemonRepository.findAll()
     }
-    @PostMapping("/")
+    @PostMapping
     fun savePokemon(@RequestBody pokemon: Pokemon):Pokemon{
         pokemonRepository.save(pokemon)
         return pokemon
     }
-
 }
