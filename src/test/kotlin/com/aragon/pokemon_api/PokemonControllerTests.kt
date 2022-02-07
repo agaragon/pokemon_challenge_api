@@ -36,7 +36,7 @@ fun falhaAoCriarPokemon(){
     val errorMessage= "Pokemon não encontrado. Certifíque-se de que escreveu o nome do pokemon corretamente e que sua conexão está funcionando corretamente"
     val expected = ResponseEntity(errorMessage,HttpStatus.NOT_FOUND)
     if (output!=expected){
-        throw Exception("Falha ao criar pokemon não está sendo tratada")
+        throw Exception("Falha ao criar pokemon não está sendo tratada corretamente")
     }
 }
 @Test
@@ -50,8 +50,34 @@ fun falhaAoSalvarPokemon(){
         val errorMessage= "Pokemon não encontrado. Certifíque-se de que escreveu o nome do pokemon corretamente e que sua conexão está funcionando corretamente"
         val expected = ResponseEntity(errorMessage,HttpStatus.NOT_FOUND)
         if (output!=expected){
-            throw Exception("Falha ao criar pokemon não está sendo tratada")
+            throw Exception("Falha ao salvar pokemon não está sendo tratada corretamente")
         }
     }
-
+@Test
+fun falhaAoBuscarPokemon(){
+        val pokeapiService = Mockito.mock(PokeapiService::class.java)
+        val pokeapiRepository = Mockito.mock(PokemonRepository::class.java)
+        Mockito.`when`(pokeapiRepository.findAll()).thenThrow(NullPointerException::class.java)
+        val controller = PokemonController(pokeapiRepository,pokeapiService)
+        val output = controller.getPokemons()
+        val errorMessage= "Banco de dados indisponível"
+        val expected = ResponseEntity(errorMessage,HttpStatus.INTERNAL_SERVER_ERROR)
+        if (output!=expected){
+            throw Exception("Falha ao salvar pokemon não está sendo tratada corretamente")
+        }
+}
+    @Test
+    fun buscarPokemon(){
+        val pokeapiService = Mockito.mock(PokeapiService::class.java)
+        val pokeapiRepository = Mockito.mock(PokemonRepository::class.java)
+        val pokemon1 = Pokemon(1,"charmander",imageUrl = "http:localhost:8000")
+        val pokemon2 = Pokemon(2,"ivysaur",imageUrl = "http:localhost:8001")
+        Mockito.`when`(pokeapiRepository.findAll()).thenReturn(listOf(pokemon1,pokemon2))
+        val controller = PokemonController(pokeapiRepository,pokeapiService)
+        val output = controller.getPokemons()
+        val expected = ResponseEntity(listOf(pokemon1,pokemon2),HttpStatus.OK)
+        if (output!=expected){
+            throw Exception("Busca de pokemons no banco não está funcionando")
+        }
+}
 }

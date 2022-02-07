@@ -33,7 +33,7 @@ class PokemonController(
         return try{
             ResponseEntity(pokemonRepository.findAll(),HttpStatus.OK)
         } catch (e:Exception){
-            ResponseEntity("Banco de dados indisponível erro = " + e.message,HttpStatus.INTERNAL_SERVER_ERROR)
+            ResponseEntity("Banco de dados indisponível",HttpStatus.INTERNAL_SERVER_ERROR)
         }
 
     }
