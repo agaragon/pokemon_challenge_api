@@ -39,3 +39,8 @@ POST:
     Caso haja algum erro durante a busca das informações do pokemon no banco, o usuário é informado de que o pokemon
 não pode ser encontrado e é levantado um erro de não encontrado.
     
+
+## Documentação
+
+A documentação da aplicação pode ser encontrada no endpoint: `http://localhost:8080/swagger-ui.html#/`
+Lá há uma descrição do endpoint `/pokemon` e uma descrição do model `Pokemon`
