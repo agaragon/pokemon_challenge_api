@@ -3,6 +3,7 @@ package com.aragon.pokemon_api.controllers
 import org.springframework.web.bind.annotation.*
 import com.aragon.pokemon_api.models.Pokemon
 import com.aragon.pokemon_api.mongoRepositories.PokemonRepository
+import com.aragon.pokemon_api.PokeapiService
 import org.json.JSONObject
 import java.net.URI
 import org.springframework.http.ResponseEntity
@@ -19,7 +20,8 @@ import io.swagger.annotations.ApiOperation
 @RequestMapping(path = ["/pokemon"])
 @Api("Controlador dos endpoints de pokemon. Possui um endpoint para post, onde são registrados os pokemons e um para get, onde os pokemons são recuperados.")
 class PokemonController(
-    val pokemonRepository: PokemonRepository
+    val pokemonRepository: PokemonRepository,
+    val pokeapiService: PokeapiService
 ) {
     //É necessário permitir as origens por que o Front End recebe mensagem de CORS caso contrário
     @CrossOrigin(origins = ["*"])
@@ -43,18 +45,9 @@ class PokemonController(
         //Tenta buscar as informações do pokemon na "pokeapi". Se encontrar o pokemon, devolve o id do mesmo, juntamente
         //com o url de sua imagem e o nome dado anteriormente.
         try{
-            val client = HttpClient.newBuilder().build()
-            val request = HttpRequest.newBuilder()
-                .uri(URI.create("https://pokeapi.co/api/v2/pokemon/" + pokemon.nome.lowercase()))
-                .build()
-            val response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            val gameIndexObj = JSONObject(response.body()).getJSONArray("game_indices")[0]
-            val pokemonIndex =  JSONObject(gameIndexObj.toString())["game_index"] as Int
-            val imageUrl = JSONObject(response.body()).getJSONObject("sprites")["back_default"] as String
-            pokemon.id = pokemonIndex
-            pokemon.imageUrl = imageUrl
-            pokemonRepository.save(pokemon)
-            return ResponseEntity(pokemon,HttpStatus.OK)
+            val pokemonWithImage = this.pokeapiService.loadPokemonInfo(pokemon.nome.lowercase())
+            pokemonRepository.save(pokemonWithImage)
+            return ResponseEntity(pokemonWithImage,HttpStatus.OK)
         } catch (e:Exception){
             val errorMessage= "Pokemon não encontrado. Certifíque-se de que escreveu o nome do pokemon corretamente e que sua conexão está funcionando corretamente "
             return ResponseEntity(errorMessage,HttpStatus.NOT_FOUND)
