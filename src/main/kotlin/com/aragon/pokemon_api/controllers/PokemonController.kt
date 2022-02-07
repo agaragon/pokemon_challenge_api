@@ -15,11 +15,12 @@ import java.net.http.HttpResponse
 class PokemonController(
     val pokemonRepository: PokemonRepository
 ) {
+    @CrossOrigin(origins = ["*"])
     @GetMapping
     fun getPokemons(): MutableList<Pokemon> {
         return pokemonRepository.findAll()
     }
-
+    @CrossOrigin(origins = ["*"])
     @PostMapping
     fun savePokemon(@RequestBody pokemon: Pokemon): Any? {
 
