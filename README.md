@@ -44,3 +44,7 @@ não pode ser encontrado e é levantado um erro de não encontrado.
 
 A documentação da aplicação pode ser encontrada no endpoint: `http://localhost:8080/swagger-ui.html#/`
 Lá há uma descrição do endpoint `/pokemon` e uma descrição do model `Pokemon`
+
+## Testes
+Para rodar os testes unitários, rode o seguinte comando:
+mvn test

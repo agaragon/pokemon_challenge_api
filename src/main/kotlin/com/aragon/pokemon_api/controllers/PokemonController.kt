@@ -49,7 +49,7 @@ class PokemonController(
             pokemonRepository.save(pokemonWithImage)
             return ResponseEntity(pokemonWithImage,HttpStatus.OK)
         } catch (e:Exception){
-            val errorMessage= "Pokemon não encontrado. Certifíque-se de que escreveu o nome do pokemon corretamente e que sua conexão está funcionando corretamente "
+            val errorMessage= "Pokemon não encontrado. Certifíque-se de que escreveu o nome do pokemon corretamente e que sua conexão está funcionando corretamente"
             return ResponseEntity(errorMessage,HttpStatus.NOT_FOUND)
         }
     }
