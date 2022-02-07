@@ -48,3 +48,15 @@ Lá há uma descrição do endpoint `/pokemon` e uma descrição do model `Pokem
 ## Testes
 Para rodar os testes unitários, rode o seguinte comando:
 mvn test
+
+Foram criados 5 testes, que estão dentro do arquivo PokemonControllerTests.kt, todos em cima eventos que podem acontecer com o controller:
+
+`tentaCriarPokemon` = Verifica se a API está respondendo corretamento quando o payload de entrada está correto e não há falhas na API do pokeapi (`https://pokeapi.co/`) nem na tentativa de salvar o pokemon no banco.
+
+`falhaAoCriarPokemon` = Verifica se a API está respondendo com status 404 quando a API do pokemon responde com erro. É assumido que a API só responde com erro quando o pokemon não é encontrado.
+
+`falhaAoSalvarPokemon` = Verifica se a API está respondendo com status 404 caso não seja possível registrar o pokemon no banco de dados. `TODO` responder com um status diferente quando o problema é salvar no banco de dados.
+
+`falhaAoBuscarPokemon` = Verifica se a API está respondendo com status 500 quando não é possível recuperar os pokemons no banco de dados.
+
+`buscarPokemon` = Verfica se a busca pelos pokemons no banco de dados está buscando no mongo pelos pokemons. O teste quebra caso os pokemons não estejam sendo buscados no mongo.
