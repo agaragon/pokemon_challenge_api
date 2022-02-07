@@ -23,7 +23,9 @@ GET: retorna um json com todos os pokemons já capturados pelo usuário
     {"nome":"Charizard",
     "id":180,
     "imageUrl":"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/6.png"},
-    ...
+    {"nome":"Bulbasaur",
+    "id":1,
+    "imageUrl":"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/1.png"},
 ]
 POST:
     Recebe o nome de um pokemon e busca em `https://pokeapi.co/` o id do pokemon e a url de sua imagem. Em seguida

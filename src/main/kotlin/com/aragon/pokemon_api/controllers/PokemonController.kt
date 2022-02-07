@@ -11,15 +11,20 @@ import org.springframework.http.HttpStatus
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
+import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
+
 
 @RestController
 @RequestMapping(path = ["/pokemon"])
+@Api("Controlador dos endpoints de pokemon. Possui um endpoint para post, onde são registrados os pokemons e um para get, onde os pokemons são recuperados.")
 class PokemonController(
     val pokemonRepository: PokemonRepository
 ) {
     //É necessário permitir as origens por que o Front End recebe mensagem de CORS caso contrário
     @CrossOrigin(origins = ["*"])
     @GetMapping
+    @ApiOperation("Endpoint para servir os pokemons capturados")
     fun getPokemons(): ResponseEntity<Any> {
         // Tenta buscar a lista de pokemons capturados, se não for possível encontrá-la, é por que o banco de dados
         // está indisponível, nesse caso é enviada uma mensagem de erro para o front junto com código 500
@@ -33,6 +38,7 @@ class PokemonController(
     //É necessário permitir as origens por que o Front End recebe mensagem de CORS caso contrário
     @CrossOrigin(origins = ["*"])
     @PostMapping
+    @ApiOperation("Endpoint para a captura de pokemons")
     fun savePokemon(@RequestBody pokemon: Pokemon): Any? {
         //Tenta buscar as informações do pokemon na "pokeapi". Se encontrar o pokemon, devolve o id do mesmo, juntamente
         //com o url de sua imagem e o nome dado anteriormente.
